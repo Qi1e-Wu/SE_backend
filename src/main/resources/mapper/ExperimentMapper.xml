@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sof_eng.Mapper.ExperimentMapper">
+
+    <!-- 在mapper标签内定义resultMap -->
+    <resultMap id="experimentResultMap" type="com.sof_eng.model.DTO.Experiment">
+        <!-- 配置每个属性的映射关系 -->
+        <id property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result property="title" column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="url" column="url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="founder" column="founder" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="founderId" column="founder_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result property="create_time" column="create_time" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="active_time" column="active_time" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="directory" column="directory" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="description" column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <insert id="addExperiment" parameterType="com.sof_eng.model.DTO.Experiment">
+        INSERT INTO experiment (title, url, founder, founder_id, create_time, active_time, directory)
+        VALUES (#{title}, #{url}, #{founder}, #{founderId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{directory})
+    </insert>
+
+    <delete id="deleteExperimentById" parameterType="java.lang.Long">
+        DELETE FROM experiment WHERE id = #{id}
+    </delete>
+
+    <update id="updateExperiment" parameterType="com.sof_eng.model.DTO.Experiment">
+        UPDATE experiment SET
+                              title = #{title},
+                              url = #{url},
+                              founder = #{founder},
+                              founder_id = #{founderId},
+                              create_time = #{create_time},
+                              active_time = #{active_time},
+                              description = #{description}
+        WHERE id = #{id}
+    </update>
+
+    <select id="getExperimentById" resultMap="experimentResultMap">
+        SELECT * FROM experiment WHERE id = #{id}
+    </select>
+
+    <select id="getListByUsername" resultMap="experimentResultMap">
+        SELECT * FROM experiment WHERE founder = #{username}
+    </select>
+
+    <update id="startExp" parameterType="com.sof_eng.model.DTO.Experiment">
+        UPDATE experiment
+        SET url = #{url}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
