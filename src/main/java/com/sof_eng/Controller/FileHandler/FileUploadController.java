@@ -85,7 +85,7 @@ public class FileUploadController {
                 otreeFile.setTitle(fileName);
                 otreeFile.setFounder_id(user.getId());
                 fileMapper.insertFileRec(otreeFile);
-                //System.out.println(uploadPath);
+                System.out.println(uploadPath);
                 String filePath = uploadPath + File.separator + uniqueFileName;
                 System.out.println(filePath);
                 File dir=new File(uploadPath);
@@ -113,7 +113,8 @@ public class FileUploadController {
             // 将文件名保存到数据库中
             return "file upload successfully";
         } catch (IOException e) {
-            throw new IOException("unable to upload file");
+            e.printStackTrace();
+            return "unable to upload file";
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
